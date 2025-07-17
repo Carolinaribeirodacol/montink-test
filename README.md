@@ -54,6 +54,11 @@ Rode as migrations:
 php artisan migrate
 ```
 
+Rode os seeders:
+```bash
+php artisan db:seed
+```
+
 ## Frontend (React)
 Instale as dependências:
 ```bash

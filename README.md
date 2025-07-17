@@ -73,13 +73,13 @@ composer run dev
 ## Acesse o projeto
 http://localhost:8000
 
-## Deixando o usuário inicial como admin:
+## Deixando o usuário seu usuário como admin:
 ```bash
 php artisan tinker
 ```
 
 ```php
-$user = App\Models\User::find(1);
+$user = App\Models\User::where('email', 'seuemailaqui@gmail.com')->first();
 $user->is_admin = true;
 $user->save();
 ```

@@ -1,4 +1,4 @@
-# Montink — Mini ERP com Laravel + React
+# Montink — Mini ERP com Laravel + React + Mantine
 
 Este é um projeto full stack utilizando **Laravel** no backend e **React** no frontend. 
 O objetivo era criar um mini ERP para controle de Pedidos, Produtos, Cupons e Estoque. 
@@ -72,3 +72,14 @@ composer run dev
 
 ## Acesse o projeto
 http://localhost:8000
+
+## Deixando o usuário inicial como admin:
+```bash
+php artisan tinker
+```
+
+```php
+$user = App\Models\User::find(1);
+$user->is_admin = true;
+$user->save();
+```

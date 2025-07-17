@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->decimal('discount', 8, 2);
-            $table->enum('type', ['percent', 'fixed'])->default('percent');
+            $table->decimal('min_total', 10, 2)->default(0);
             $table->date('expires_at')->nullable();
             $table->timestamps();
         });

@@ -19,8 +19,8 @@ class CouponFactory extends Factory
         return [
             'code' => strtoupper($this->faker->bothify('CUPOM###')),
             'discount' => $this->faker->randomFloat(2, 5, 50),
-            'type' => $this->faker->randomElement(['percent', 'fixed']),
-            'expires_at' => now()->addDays(rand(5, 30)),
+            'min_total' => fake()->randomElement([0, 50, 100]),
+            'expires_at' => now()->addDays(fake()->numberBetween(10, 60)),
         ];
     }
 }

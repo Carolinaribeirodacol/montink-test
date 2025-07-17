@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,9 +24,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory(10)->create()->each(function ($product) {
-            $product->stock()->create([
-                'quantity' => rand(10, 100),
-            ]);
+            ProductVariation::factory(rand(2, 4))->create([
+                'product_id' => $product->id,
+            ])->each(function ($variation) {
+                $variation->stock()->create([
+                    'quantity' => rand(10, 100),
+                ]);
+            });
         });
 
         Coupon::factory(3)->create();

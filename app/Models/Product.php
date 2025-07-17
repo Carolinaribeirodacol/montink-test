@@ -15,8 +15,8 @@ class Product extends Model
         'price'
     ];
 
-    public function stock()
+    public function variations()
     {
-        return $this->hasOne(Stock::class);
+        return $this->hasMany(ProductVariation::class);
     }
 }

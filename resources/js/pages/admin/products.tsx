@@ -18,27 +18,28 @@ export default function Products() {
             </Title>
 
             <Table highlightOnHover>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Preço</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>Nome</Table.Th>
+                        <Table.Th>Descrição</Table.Th>
+                        <Table.Th>Preço</Table.Th>
+                        <Table.Th>Ações</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+
                 <tbody>
                     {products.map((product) => (
-                        <tr key={product.id}>
-                            <td>
+                        <Table.Tr key={product.id}>
+                            <Table.Td>
                                 <Text>{product.name}</Text>
-                            </td>
-                            <td>
-                                <Text size="sm" color="dimmed">
+                            </Table.Td>
+                            <Table.Td>
+                                <Text size="sm" c="dimmed">
                                     {product.description}
                                 </Text>
-                            </td>
-                            <td>R$ {product.price}</td>
-                            <td>
+                            </Table.Td>
+                            <Table.Td>R$ {product.price}</Table.Td>
+                            <Table.Td>
                                 <Group gap="xs">
                                     <Button size="xs" variant="outline" color="blue">
                                         Visualizar
@@ -50,8 +51,8 @@ export default function Products() {
                                         Excluir
                                     </Button>
                                 </Group>
-                            </td>
-                        </tr>
+                            </Table.Td>
+                        </Table.Tr>
                     ))}
                 </tbody>
             </Table>

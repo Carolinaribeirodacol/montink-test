@@ -9,6 +9,13 @@ class ProductVariation extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'product_id',
+        'size',
+        'color',
+        'price',
+    ];
+
     public function stock()
     {
         return $this->hasOne(Stock::class);

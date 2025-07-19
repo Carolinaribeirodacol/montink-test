@@ -17,14 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{product}', [AdminProductController::class, 'show'])->name('products.show');
-    Route::get('/products/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
-    Route::delete('/products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
+    Route::resource('products', AdminProductController::class);
 });
 
 // Rotas públicas
-Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

@@ -24,4 +24,16 @@ class Order extends Model
     {
         return $this->belongsTo(UserAddress::class, 'user_address_id');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_products')
+            ->withPivot('quantity', 'price')
+            ->withTimestamps();
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class, 'coupon_id');
+    }
 }

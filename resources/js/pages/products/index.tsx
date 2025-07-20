@@ -55,10 +55,10 @@ export default function Products() {
                             {/* <Card.Section>
                                 <AspectRatio ratio={16 / 9}>
                                     <Image
-                                        src={project.image_url}
+                                        src={product.image}
                                         fallbackSrc="https://placehold.co/600x400?text=Placeholder"
                                         fit="cover"
-                                        alt={project.title}
+                                        alt={product.name}
                                     />
                                 </AspectRatio>
                             </Card.Section> */}

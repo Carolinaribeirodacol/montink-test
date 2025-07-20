@@ -8,5 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Coupon extends Model
 {
     use HasFactory;
-    //
+
+    protected $fillable = [
+        'code',
+        'discount',
+        'min_total',
+        'expires_at',
+    ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

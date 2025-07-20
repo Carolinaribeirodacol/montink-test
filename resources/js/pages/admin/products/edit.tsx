@@ -1,19 +1,40 @@
 import { colorOptions, sizeOptions } from '@/lib/variants';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { Button, Container, Divider, Group, NumberInput, Select, Stack, Textarea, TextInput, Title } from '@mantine/core';
 
-export default function ProductCreate() {
-    const allowedKeys = ['size', 'color', 'price', 'quantity'];
+type Product = {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    variations: {
+        id?: number | null;
+        size: string;
+        color: string;
+        price: number;
+        stock?: { quantity: number };
+    }[];
+};
 
-    const { data, setData, post, processing, errors } = useForm({
-        name: '',
-        description: '',
-        price: 0,
-        variations: [{ id: null, size: '', color: '', price: 0, quantity: 0 }],
+export default function ProductEdit() {
+    const allowedKeys = ['size', 'color', 'price', 'quantity'];
+    const { product } = usePage().props as unknown as { product: Product };
+
+    const { data, setData, put, processing, errors } = useForm({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        variations: (product.variations ?? []).map((variation) => ({
+            id: variation.id,
+            size: variation.size,
+            color: variation.color,
+            price: variation.price,
+            quantity: variation.stock?.quantity ?? 0,
+        })),
     });
 
     const addVariation = () => {
-        setData('variations', [...data.variations, { size: '', color: '', price: 0, quantity: 0 }]);
+        setData('variations', [...data.variations, { id: null, size: '', color: '', price: 0, quantity: 0 }]);
     };
 
     const updateVariation = (index: number, key: string, value: any) => {
@@ -32,12 +53,12 @@ export default function ProductCreate() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('admin.products.store'));
+        put(route('admin.products.update', product.id));
     };
 
     return (
         <Container size="md" py="xl">
-            <Title order={2}>Criar Produto</Title>
+            <Title order={2}>Editar Produto</Title>
 
             <form onSubmit={handleSubmit}>
                 <TextInput
@@ -59,13 +80,13 @@ export default function ProductCreate() {
 
                 <NumberInput
                     label="Preço"
-                    mb="md"
-                    required
+                    prefix="R$"
                     value={data.price}
                     onChange={(value) => setData('price', Number(value))}
+                    mb="md"
                     error={errors.price}
+                    required
                     min={0}
-                    prefix="R$"
                     defaultValue={0.0}
                     decimalSeparator=","
                 />
@@ -131,7 +152,7 @@ export default function ProductCreate() {
 
                 <Group justify="flex-end" mt="xl">
                     <Button type="submit" loading={processing}>
-                        Criar Produto
+                        Salvar
                     </Button>
                 </Group>
             </form>

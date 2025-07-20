@@ -1,6 +1,7 @@
+import DefaultLayout from '@/layouts/DefaultLayout';
 import { colorOptions, sizeOptions } from '@/lib/variants';
 import { useForm } from '@inertiajs/react';
-import { Button, Container, Divider, Group, NumberInput, Select, Stack, Textarea, TextInput, Title } from '@mantine/core';
+import { Button, Divider, Group, NumberInput, Select, Stack, Textarea, TextInput, Title } from '@mantine/core';
 
 export default function ProductCreate() {
     const allowedKeys = ['size', 'color', 'price', 'quantity'];
@@ -36,7 +37,7 @@ export default function ProductCreate() {
     };
 
     return (
-        <Container size="md" py="xl">
+        <DefaultLayout>
             <Title order={2}>Criar Produto</Title>
 
             <form onSubmit={handleSubmit}>
@@ -135,6 +136,6 @@ export default function ProductCreate() {
                     </Button>
                 </Group>
             </form>
-        </Container>
+        </DefaultLayout>
     );
 }

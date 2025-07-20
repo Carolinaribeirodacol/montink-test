@@ -1,5 +1,6 @@
+import DefaultLayout from '@/layouts/DefaultLayout';
 import { usePage } from '@inertiajs/react';
-import { Badge, Container, Divider, Table, Text, Title } from '@mantine/core';
+import { Badge, Divider, Table, Text, Title } from '@mantine/core';
 
 type Product = {
     id: number;
@@ -19,7 +20,7 @@ export default function ProductShow() {
     const { product } = usePage().props as unknown as { product: Product };
 
     return (
-        <Container size="md" py="xl">
+        <DefaultLayout>
             <Title order={2} mb="xs">
                 {product.name}
             </Title>
@@ -66,6 +67,6 @@ export default function ProductShow() {
             ) : (
                 <Text c="dimmed">Nenhuma variação cadastrada.</Text>
             )}
-        </Container>
+        </DefaultLayout>
     );
 }

@@ -1,3 +1,4 @@
+import DefaultLayout from "@/layouts/DefaultLayout";
 import { usePage } from "@inertiajs/react";
 
 type Product = {
@@ -18,8 +19,8 @@ export default function ProductShow() {
     const { product } = usePage().props as unknown as { product: Product };
 
     return (
-        <div>
+        <DefaultLayout>
             <h1>{product.name}</h1>
-        </div>
+        </DefaultLayout>
     );
 }

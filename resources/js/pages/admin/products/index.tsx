@@ -1,5 +1,6 @@
+import DefaultLayout from '@/layouts/DefaultLayout';
 import { router, usePage } from '@inertiajs/react';
-import { Button, Container, Group, Modal, Table, Text, Title } from '@mantine/core';
+import { Button, Group, Modal, Table, Text, Title } from '@mantine/core';
 import { useState } from 'react';
 
 type Product = {
@@ -33,7 +34,7 @@ export default function Products() {
     }
 
     return (
-        <Container size="md" py="xl">
+        <DefaultLayout>
             <Group mb="lg" justify="space-between">
                 <Title order={2}>Produtos</Title>
                 <Button onClick={() => router.visit(route('admin.products.create'))} color="green">
@@ -106,6 +107,6 @@ export default function Products() {
                     </Button>
                 </Group>
             </Modal>
-        </Container>
+        </DefaultLayout>
     );
 }

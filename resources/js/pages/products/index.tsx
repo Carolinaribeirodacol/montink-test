@@ -1,5 +1,6 @@
+import DefaultLayout from '@/layouts/DefaultLayout';
 import { router, usePage } from '@inertiajs/react';
-import { Badge, Card, Container, Grid, Group, Space, Stack, Text, Title } from '@mantine/core';
+import { Badge, Card, Grid, Group, Space, Stack, Text, Title } from '@mantine/core';
 
 type Product = {
     id: number;
@@ -27,7 +28,7 @@ export default function Products() {
     const { products } = usePage().props as unknown as { products: Product[] };
 
     return (
-        <Container size="md" py="xl">
+        <DefaultLayout>
             <Title order={2}>Produtos</Title>
 
             <Space h="lg" />
@@ -48,6 +49,7 @@ export default function Products() {
                                 height: '100%',
                                 display: 'flex',
                                 flexDirection: 'column',
+                                cursor: 'pointer',
                             }}
                         >
                             {/* <Card.Section>
@@ -82,6 +84,6 @@ export default function Products() {
                     </Grid.Col>
                 ))}
             </Grid>
-        </Container>
+        </DefaultLayout>
     );
 }

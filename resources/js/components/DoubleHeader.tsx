@@ -12,7 +12,7 @@ export function DoubleHeader() {
         auth: { user: { is_admin: boolean } };
     };
 
-    const mainLinks = auth.user.is_admin
+    const mainLinks = auth?.user?.is_admin
         ? [
               { link: '/products', label: 'Produtos' },
               { link: '/admin/products', label: 'Gerenciar Produtos' },

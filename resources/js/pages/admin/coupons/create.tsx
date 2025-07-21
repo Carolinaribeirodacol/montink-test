@@ -1,35 +1,24 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
-import { useForm, usePage } from '@inertiajs/react';
-import { Button, Group, NumberInput, Space, Title } from '@mantine/core';
+import { useForm } from '@inertiajs/react';
+import { Button, Group, NumberInput, Title } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import 'dayjs/locale/pt-br';
 
-type Coupon = {
-    id: number;
-    discount: number;
-    min_total: number;
-    expires_at: string;
-};
-
-export default function CouponEdit() {
-    const { coupon } = usePage().props as unknown as { coupon: Coupon };
-
-    const { data, setData, put, processing, errors } = useForm({
-        discount: coupon.discount,
-        min_total: coupon.min_total,
-        expires_at: coupon.expires_at,
+export default function CouponCreate() {
+    const { data, setData, post, processing, errors } = useForm({
+        discount: 0,
+        min_total: 0,
+        expires_at: '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        put(route('admin.coupos.update', coupon.id));
+        post(route('admin.coupons.store'));
     };
 
     return (
         <DefaultLayout>
-            <Title order={2}>Editar Cupom</Title>
-
-            <Space h="lg" />
+            <Title order={2}>Criar Cupom</Title>
 
             <form onSubmit={handleSubmit}>
                 <NumberInput
@@ -69,7 +58,7 @@ export default function CouponEdit() {
 
                 <Group justify="flex-end" mt="xl">
                     <Button type="submit" loading={processing}>
-                        Salvar
+                        Criar Cupom
                     </Button>
                 </Group>
             </form>

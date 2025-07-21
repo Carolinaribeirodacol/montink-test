@@ -13,6 +13,7 @@ class StatusOrderSeeder extends Seeder
     public function run(): void
     {
         $statuses = [
+            ['name' => 'cart',      'description' => 'Carrinho'],
             ['name' => 'pending',   'description' => 'Pendente'],
             ['name' => 'paid',      'description' => 'Pago'],
             ['name' => 'shipped',   'description' => 'Enviado'],

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\StatusOrder;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -60,5 +64,25 @@ class OrderController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function addToCart($productVariationId)
+    {
+        $userId = auth()->id;
+
+        $statusCart = StatusOrder::where('name', 'cart')->firstOrFail();
+
+        $order = Order::firstOrCreate([
+            'user_id' => $userId,
+            'status_order_id' => $statusCart->id,
+        ]);
+
+        $orderProduct = OrderProduct::firstOrNew([
+            'order_id' => $order->id,
+            'product_variation_id' => $productVariationId,
+        ]);
+
+        $orderProduct->quantity += 1;
+        $orderProduct->save();
     }
 }

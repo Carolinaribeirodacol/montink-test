@@ -1,4 +1,5 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
+import { formatCurrency } from '@/lib/formatCurrency';
 import { router, usePage } from '@inertiajs/react';
 import { Button, Group, Modal, Table, Text, Title } from '@mantine/core';
 import { useState } from 'react';
@@ -63,7 +64,7 @@ export default function Products() {
                                     {product.description}
                                 </Text>
                             </Table.Td>
-                            <Table.Td>R$ {product.price}</Table.Td>
+                            <Table.Td>{formatCurrency(product.price)}</Table.Td>
                             <Table.Td>
                                 <Group gap="xs">
                                     <Button

@@ -1,12 +1,14 @@
-import { ReactNode } from 'react';
 import { DoubleHeader } from '@/components/DoubleHeader';
 import { Container } from '@mantine/core';
+import { ReactNode } from 'react';
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
-  return (
-    <>
-      <DoubleHeader />
-      <Container py="xl">{children}</Container>
-    </>
-  );
+    return (
+        <>
+            <Container>
+                <DoubleHeader />
+            </Container>
+            <Container py="xl">{children}</Container>
+        </>
+    );
 }

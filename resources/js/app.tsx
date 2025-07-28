@@ -1,14 +1,10 @@
-import '../css/app.css';
-
 import { createInertiaApp } from '@inertiajs/react';
 import { MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.css';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
-import '@mantine/dates/styles.css';
 import '@mantine/core/styles.css';
-
+import '@mantine/carousel/styles.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -20,10 +16,7 @@ createInertiaApp({
 
         root.render(
             <MantineProvider
-                theme={{
-                    fontFamily: 'Inter, sans-serif',
-                    primaryColor: 'blue',
-                }}
+                defaultColorScheme="light"
             >
                 <App {...props} />
             </MantineProvider>,

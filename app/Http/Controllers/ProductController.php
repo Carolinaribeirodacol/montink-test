@@ -12,27 +12,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['variations.stock'])->get();
+        $products = Product::with(['variations', 'images'])->get();
 
         $productsFormatted = $products->map(function ($product) {
-            $variations = $product->variations->map(function ($v) {
-                return [
-                    'id' => $v->id,
-                    'size' => $v->size,
-                    'color' => $v->color,
-                    'price' => $v->price,
-                    'stock' => $v->stock?->quantity ?? 0,
-                ];
-            });
+            $firstVariation = $product->variations->first();
+            $mainImage = $product->images->first();
 
             return [
                 'id' => $product->id,
                 'name' => $product->name,
                 'description' => $product->description,
-                'price' => $product->price,
-                'variations' => $variations,
-                'available_colors' => $variations->pluck('color')->unique()->values(),
-                'available_sizes' => $variations->pluck('size')->unique()->values(),
+                'price' => $firstVariation?->price ?? 0,
+                'image' => $mainImage?->path ? asset('storage/' . $mainImage->path) : null
             ];
         });
 
@@ -43,8 +34,26 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $product->load(['variations.stock', 'images']);
+
+        $variations = $product->variations->map(function ($variation) {
+            return [
+                'id' => $variation->id,
+                'size' => $variation->size,
+                'color' => $variation->color,
+                'stock' => $variation->stock?->quantity ?? 0,
+            ];
+        });
+
         return Inertia::render('products/show', [
-            'product' => $product,
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => $product->price,
+                'variations' => $variations,
+                'images' => $product->images->map(fn ($img) => asset('storage/' . $img->path))
+            ],
         ]);
     }
 }

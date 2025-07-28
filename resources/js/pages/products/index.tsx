@@ -1,24 +1,14 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
+import { formatCurrency } from '@/lib/formatCurrency';
 import { router, usePage } from '@inertiajs/react';
-import { Button, Card, Grid, Group, Select, Space, Stack, Text, Title } from '@mantine/core';
-import { useState } from 'react';
+import { Box, Card, Grid, Image, Space, Stack, Text, Title } from '@mantine/core';
 
 type Product = {
     id: number;
     name: string;
     description: string;
     price: number;
-    variations: Variation[];
-    available_colors: string[];
-    available_sizes: string[];
-};
-
-type Variation = {
-    id: number;
-    size: string;
-    color: string;
-    price: number;
-    stock: number;
+    image?: string | null;
 };
 
 export default function Products() {
@@ -26,89 +16,44 @@ export default function Products() {
 
     return (
         <DefaultLayout>
-            <Title order={2}>Produtos</Title>
-            <Space h="lg" />
+            <Box maw={800} mx="auto" p="md">
+                <Title order={2}>Produtos</Title>
 
-            <Grid>
-                {products.length === 0 && <h1>Sem produtos disponíveis.</h1>}
+                <Space h="lg" />
 
-                {products.map((product) => {
-                    // Estado local por produto (usando useState inline com fallback para o primeiro valor)
-                    const [selectedColor, setSelectedColor] = useState<string>(product.available_colors[0] ?? '');
-                    const [selectedSize, setSelectedSize] = useState<string>(product.available_sizes[0] ?? '');
+                <Grid>
+                    {products.length === 0 && <h1>Sem produtos disponíveis.</h1>}
 
-                    const selectedVariation = product.variations.find((v) => v.color === selectedColor && v.size === selectedSize);
-
-                    return (
+                    {products.map((product) => (
                         <Grid.Col span={{ base: 12, sm: 6 }} key={product.id}>
                             <Card
                                 shadow="sm"
                                 padding="md"
                                 radius="md"
                                 withBorder
-                                style={{
-                                    height: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                }}
+                                onClick={() => router.visit(route('products.show', product.id))}
+                                style={{ cursor: 'pointer' }}
                             >
-                                <Stack justify="space-between" gap="xs" mt="md" style={{ flex: 1 }}>
-                                    <Text fw={600} size="md">
+                                <Stack gap="sm">
+                                    {product.image && <Image src={product.image} alt={product.name} height={300} radius="sm" />}
+
+                                    <Text fw={600} size="md" lineClamp={1}>
                                         {product.name}
                                     </Text>
 
-                                    <Text size="sm" c="dimmed" lineClamp={3}>
+                                    <Text size="sm" c="dimmed" lineClamp={1}>
                                         {product.description}
                                     </Text>
 
-                                    <Select
-                                        label="Cor"
-                                        data={product.available_colors}
-                                        value={selectedColor}
-                                        onChange={(value) => {
-                                            setSelectedColor(value || '');
-                                        }}
-                                    />
-
-                                    <Group gap="xs" mt="sm">
-                                        {product.available_sizes.map((size) => (
-                                            <Button
-                                                key={size}
-                                                variant={selectedSize === size ? 'filled' : 'outline'}
-                                                radius="xl"
-                                                size="compact-sm"
-                                                onClick={() => setSelectedSize(size)}
-                                                color="black"
-                                            >
-                                                {size}
-                                            </Button>
-                                        ))}
-                                    </Group>
-
-                                    {selectedVariation && (
-                                        <Text size="sm">
-                                            Preço: R$ {selectedVariation.price} {selectedVariation.stock === 0 && '(Sem estoque)'}
-                                        </Text>
-                                    )}
-
-                                    <Button
-                                        onClick={() => {
-                                            if (selectedVariation?.id) {
-                                                router.post(route('cart.add', selectedVariation.id));
-                                            }
-                                        }}
-                                        size='sm'
-                                        disabled={!selectedVariation || selectedVariation.stock === 0}
-                                        color="green"
-                                    >
-                                        Adicionar ao carrinho
-                                    </Button>
+                                    <Text size="xl" fw={700}>
+                                        {formatCurrency(product.price)}
+                                    </Text>
                                 </Stack>
                             </Card>
                         </Grid.Col>
-                    );
-                })}
-            </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </DefaultLayout>
     );
 }

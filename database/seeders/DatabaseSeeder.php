@@ -6,35 +6,46 @@ use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Criação de um usuário
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        Product::factory(10)->create()->each(function ($product) {
-            ProductVariation::factory(rand(2, 4))->create([
-                'product_id' => $product->id,
-            ])->each(function ($variation) {
-                $variation->stock()->create([
-                    'quantity' => rand(10, 100),
-                ]);
-            });
+        // Define as opções conforme variants.ts
+        $colors = ['preto', 'branco', 'azul', 'vermelho', 'verde'];
+        $sizes = ['P', 'M', 'G', 'GG', 'XG'];
+
+        Product::factory(10)->create()->each(function ($product) use ($colors, $sizes) {
+            $selectedColors = collect($colors)->shuffle()->take(rand(2, 4));
+            $selectedSizes = collect($sizes)->shuffle()->take(rand(2, 3));
+
+            foreach ($selectedColors as $color) {
+                foreach ($selectedSizes as $size) {
+                    $variation = ProductVariation::create([
+                        'product_id' => $product->id,
+                        'color' => $color,
+                        'size' => $size,
+                        'price' => rand(5000, 10000) / 100,
+                    ]);
+
+                    $variation->stock()->create([
+                        'quantity' => rand(5, 50),
+                    ]);
+                }
+            }
         });
 
         Coupon::factory(3)->create();
-
-        $this->call(StatusOrderSeeder::class);
+        $this->call([
+            ProductImageSeeder::class,
+            StatusOrderSeeder::class,
+        ]);
     }
 }

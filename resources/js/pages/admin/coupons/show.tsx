@@ -1,4 +1,5 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
+import { formatCurrency } from '@/lib/formatCurrency';
 import { usePage } from '@inertiajs/react';
 import { Text, Title } from '@mantine/core';
 
@@ -21,11 +22,11 @@ export default function CouponShow() {
             </Title>
 
             <Text fw={700} size="lg" mb="lg">
-                R$ {coupon.discount}
+                {formatCurrency(coupon.discount)}
             </Text>
 
             <Text fw={700} size="lg" mb="lg">
-                Valor mínimo da compra: R$ {coupon.min_total}
+                Valor mínimo da compra: {formatCurrency(coupon.min_total)}
             </Text>
 
             <Text size="lg" mb="lg">

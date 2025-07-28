@@ -1,4 +1,5 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
+import { formatCurrency } from '@/lib/formatCurrency';
 import { usePage } from '@inertiajs/react';
 import { Badge, Divider, Table, Text, Title } from '@mantine/core';
 
@@ -30,7 +31,7 @@ export default function ProductShow() {
             </Text>
 
             <Text fw={700} size="lg" mb="lg">
-                Preço base: R$ {product.price}
+                Preço base: {formatCurrency(product.price)}
             </Text>
 
             <Divider my="md" label="Variações" />
@@ -57,7 +58,7 @@ export default function ProductShow() {
                                     <Badge color="blue">{variation.color}</Badge>
                                 </Table.Td>
 
-                                <Table.Td>R$ {variation.price}</Table.Td>
+                                <Table.Td>{formatCurrency(variation.price)}</Table.Td>
 
                                 <Table.Td>{variation.stock?.quantity ?? 0} unidades</Table.Td>
                             </Table.Tr>

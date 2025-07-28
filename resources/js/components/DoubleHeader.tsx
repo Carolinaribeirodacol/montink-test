@@ -8,17 +8,19 @@ export function DoubleHeader() {
     const [opened, { toggle }] = useDisclosure(false);
     const [active, setActive] = useState(0);
 
-    const { auth } = usePage().props as unknown as {
+    const { auth, cartCount } = usePage().props as unknown as {
         auth: { user: { is_admin: boolean } };
+        cartCount: number;
     };
 
-    const mainLinks = auth?.user?.is_admin
-        ? [
-              { link: '/products', label: 'Produtos' },
-              { link: '/admin/products', label: 'Gerenciar Produtos' },
-              { link: '/admin/coupons', label: 'Cupons' },
-          ]
-        : [{ link: '/products', label: 'Produtos' }];
+    const mainLinks = [
+        { link: '/products', label: 'Produtos' },
+        { link: '/cart', label: `Carrinho (${cartCount || 0})` },
+    ];
+
+    if (auth?.user?.is_admin) {
+        mainLinks.push({ link: '/admin/products', label: 'Gerenciar Produtos' }, { link: '/admin/coupons', label: 'Cupons' });
+    }
 
     const mainItems = mainLinks.map((item, index) => (
         <Anchor<'a'>
